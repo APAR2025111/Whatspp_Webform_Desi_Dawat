@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root { font-family: 'DM Sans', system-ui, sans-serif; color: #30231d; background: #fffaf4; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+.standalone-order-app { min-height: 100vh; display: flex; flex-direction: column; }
+.standalone-order-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 12px clamp(16px, 5vw, 64px); background: #fffdf9; border-bottom: 3px solid #c58b28; box-shadow: 0 3px 12px rgba(55, 20, 15, .1); }
+.standalone-order-brand { display: flex; align-items: center; gap: 13px; color: inherit; text-decoration: none; }
+.standalone-order-brand img { width: 60px; height: 60px; border-radius: 50%; object-fit: contain; }
+.standalone-order-brand strong { display: block; color: #7b1e24; font: 700 1.55rem 'Playfair Display', Georgia, serif; }
+.standalone-order-brand small { display: block; margin-top: 3px; color: #746454; font-size: .78rem; }
+.standalone-order-phone { color: #70232b; font-weight: 700; text-decoration: none; }
+.standalone-order-footer { margin-top: auto; padding: 18px; color: #f5e5d6; background: #321719; text-align: center; font-size: .84rem; }
+.eyebrow { color: #bd8153; font-size: .72rem; font-weight: 700; letter-spacing: .17em; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 17px; border: 0; border-radius: 8px; font-weight: 700; text-decoration: none; }
+.button-secondary { border: 1px solid #e0c99e; color: #5b2426; background: #fff5e3; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #d3a248; outline-offset: 2px; }
+@media (max-width: 520px) {
+  .standalone-order-header { align-items: flex-start; }
+  .standalone-order-brand { gap: 8px; }
+  .standalone-order-brand img { width: 45px; height: 45px; }
+  .standalone-order-brand strong { font-size: 1.2rem; }
+  .standalone-order-brand small { max-width: 150px; font-size: .68rem; }
+  .standalone-order-phone { padding-top: 8px; font-size: .78rem; white-space: nowrap; }
+}
