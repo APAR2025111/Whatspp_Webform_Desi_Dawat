@@ -17,7 +17,7 @@
   box-shadow: 0 12px 30px rgba(55, 20, 15, .14);
 }
 .whatsapp-order-hero .eyebrow { margin: 0 0 8px; color: #f2c477; }
-.whatsapp-order-hero h1 { margin: 0; color: inherit; font: 700 clamp(2rem, 4vw, 3.25rem)/1.12 'Playfair Display', Georgia, serif; }
+.whatsapp-order-hero h1 { margin: 0; color: inherit; font: 700 clamp(1.75rem, 3.2vw, 2.7rem)/1.12 'Playfair Display', Georgia, serif; }
 .whatsapp-order-hero p:not(.eyebrow) { margin: 10px 0 0; max-width: 680px; color: #fff1df; line-height: 1.6; }
 .whatsapp-order-hero .whatsapp-order-hero-fi { margin-top: 3px !important; color: #e8cfc0 !important; font-size: .94rem; }
 .whatsapp-order-notice {
@@ -330,4 +330,15 @@
   .whatsapp-menu-group-heading .whatsapp-menu-group-count { max-width: 88px; font-size: .72rem; }
   .whatsapp-menu-group-title-fi { font-size: 1.16rem; }
   .whatsapp-category-toggle { flex-basis: 30px; width: 30px; height: 30px; }
+}
+
+
+/* Place the brand logo inside the compact order hero */
+.whatsapp-order-hero { flex-wrap: wrap; }
+.whatsapp-order-hero-copy { flex: 1 1 300px; min-width: 0; }
+.whatsapp-order-hero-logo { flex: 0 0 auto; width: clamp(86px, 11vw, 132px); height: clamp(86px, 11vw, 132px); margin-inline: auto 2px; border: 2px solid rgba(239, 203, 132, .88); border-radius: 50%; object-fit: cover; box-shadow: 0 5px 18px rgba(27, 10, 9, .32), 0 0 0 5px rgba(255, 247, 237, .08); }
+@media (max-width: 760px) {
+  .whatsapp-order-hero { align-items: center; flex-direction: row; }
+  .whatsapp-order-hero-copy { flex: 1 1 250px; }
+  .whatsapp-order-hero-logo { width: 82px; height: 82px; margin-inline: 0; }
 }

@@ -200,6 +200,7 @@ export default function WhatsAppOrderFormPage() {
           <p className="whatsapp-order-hero-fi" lang="fi">Valitse annokset ja määrät. Lähetä tilaus meille WhatsAppissa.</p>
           <p className="whatsapp-order-hero-en" lang="en">Choose your dishes and quantities, then send your order to us on WhatsApp.</p>
         </div>
+        <img className="whatsapp-order-hero-logo" src="./images/LOGO.jpeg" alt="Desi Dawat" />
       </div>
 
       <div className="whatsapp-order-info">
