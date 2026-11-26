@@ -343,3 +343,18 @@
   .whatsapp-order-hero-copy { flex: 1 1 250px; }
   .whatsapp-order-hero-logo { width: 82px; height: 82px; margin-inline: 0; }
 }
+
+/* Keep checkout content inside its compact column */
+.whatsapp-order-checkout,
+.whatsapp-order-checkout > *,
+.whatsapp-checkout-fields,
+.whatsapp-cart-summary { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.whatsapp-order-checkout { grid-template-columns: minmax(0, 1fr); }
+.whatsapp-cart-heading { min-width: 0; flex-wrap: wrap; align-items: flex-start; }
+.whatsapp-cart-heading h2 { min-width: 0; flex: 1 1 145px; overflow-wrap: anywhere; }
+.whatsapp-cart-heading > span { flex: 0 1 auto; max-width: 100%; padding: 4px 7px; font-size: .72rem; }
+.whatsapp-fulfilment { min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; }
+.whatsapp-fulfilment legend { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.whatsapp-checkout-fields input:not([type=radio]),
+.whatsapp-checkout-fields textarea,
+.whatsapp-submit-button { min-width: 0; max-width: 100%; box-sizing: border-box; }
