@@ -94,8 +94,8 @@ export default function WhatsAppOrderFormPage() {
   const [error, setError] = useState("");
   const [openInfoPanel, setOpenInfoPanel] = useState(null);
   const [selectedAllergenCode, setSelectedAllergenCode] = useState(null);
-  const [orderDate, setOrderDate] = useState(() => localDateString());
   const [orderTime, setOrderTime] = useState(() => getDefaultOrderTime());
+  const [openCategory, setOpenCategory] = useState(null);
 
   const selectedItems = useMemo(
     () => ALL_ITEMS.filter((item) => Number(quantities[item.id]) > 0),
@@ -121,23 +121,22 @@ export default function WhatsAppOrderFormPage() {
     }
 
     const values = new FormData(form);
-    const name = String(values.get("customer_name") || "").trim();
     const phone = String(values.get("customer_phone") || "").trim();
-    const date = String(values.get("order_date") || "");
+    const date = localDateString();
     const time = String(values.get("order_time") || "");
     const requestedAt = new Date(`${date}T${time}`);
-    if (!date || !time || Number.isNaN(requestedAt.getTime())) {
-      setError("Valitse toivomasi päivämäärä ja aika. / Please choose your preferred date and time.");
-      return;
-    }
-    if (requestedAt.getTime() < Date.now() + 60 * 60 * 1000) {
-      setError("Tee tilaus vähintään tuntia ennen toivomaasi aikaa. / Please order at least one hour before your preferred time.");
+    if (!time || Number.isNaN(requestedAt.getTime())) {
+      setError("Valitse toivomasi aika. / Please choose your preferred time.");
       return;
     }
     const openingHour = getOpeningHour(requestedAt);
     const requestedMinutes = requestedAt.getHours() * 60 + requestedAt.getMinutes();
     if (requestedMinutes < openingHour * 60 || requestedMinutes >= 21 * 60) {
-      setError(`Aika ei ole aukioloaikojen sisällä. Tänä päivänä olemme avoinna ${openingHour}:00–21:00. / That time is outside opening hours. We are open ${openingHour}:00–21:00 on this day.`);
+      setError(`Aika ei ole aukioloaikojen sisällä. Tänä päivänä olemme avoinna ${openingHour}:00–21:00. / That time is outside opening hours. We are open ${openingHour}:00–21:00 today.`);
+      return;
+    }
+    if (!phone) {
+      setError("Anna WhatsApp-numerosi. / Please enter your WhatsApp number.");
       return;
     }
     if (fulfilment === "delivery" && !String(values.get("delivery_address") || "").trim()) {
@@ -156,7 +155,6 @@ export default function WhatsAppOrderFormPage() {
 
     const address = String(values.get("delivery_address") || "").trim();
     const allergies = String(values.get("allergies") || "").trim();
-    const notes = String(values.get("order_notes") || "").trim();
     const dateOptions = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
     const finnishDate = requestedAt.toLocaleDateString("fi-FI", dateOptions);
     const englishDate = requestedAt.toLocaleDateString("en-FI", dateOptions);
@@ -170,27 +168,24 @@ export default function WhatsAppOrderFormPage() {
       "*DESI DAWAT — TILAUS / ORDER REQUEST*",
       "",
       "*ASIAKAS / CUSTOMER*",
-      `Nimi / Name: ${name}`,
-      `Puhelin / Phone: ${phone}`,
+      `WhatsApp-numero / WhatsApp number: ${phone}`,
       "",
       "*TILAUSTAPA / FULFILMENT*",
       fulfilment === "pickup" ? "Nouto / Pickup" : "Kotiinkuljetus / Home delivery",
       ...(fulfilment === "delivery" && address ? [`Osoite / Address: ${address}`] : []),
-      `Toivottu päivä / Preferred date: ${finnishDate} / ${englishDate}`,
+      `Päivä / Date: ${finnishDate} / ${englishDate}`,
       `Toivottu aika / Preferred time: ${time}`,
       "",
       "*TUOTTEET / ORDER ITEMS*",
       ...orderLines,
       "",
       "*HINTAYHTEENVETO / PRICE SUMMARY*",
-      `Ruokien välisummaa / Food subtotal: ${formatEuro(subtotal)}`,
-      fulfilment === "delivery"
-        ? "Toimitusmaksu / Delivery fee: Vahvistetaan osoitteen perusteella / To be confirmed based on the address"
-        : "Toimitusmaksu / Delivery fee: Ei toimitusmaksua noudolle / None for pickup",
+      `Valitut tuotteet / Selected items: ${selectedItems.reduce((sum, item) => sum + Number(quantities[item.id]), 0)}`,
+      `Yhteensä / Total: ${formatEuro(subtotal)}`,
+      ...(fulfilment === "delivery" ? ["Toimitusmaksu vahvistetaan WhatsAppissa / Delivery fee will be confirmed on WhatsApp"] : []),
       ...(allergies ? ["", "*RUOKA-ALLERGIAT / FOOD ALLERGIES*", allergies] : []),
-      ...(notes ? ["", "*LISÄTIEDOT / NOTES*", notes] : []),
       "",
-      "Vahvistathan tilauksen ja toimitusmaksun. / Please confirm the order and delivery fee.",
+      "Vahvistathan tilauksen. / Please confirm the order.",
     ].join("\n");
 
     window.location.assign(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`);
@@ -202,21 +197,8 @@ export default function WhatsAppOrderFormPage() {
         <div className="whatsapp-order-hero-copy">
           <p className="eyebrow">DESI DAWAT · OULU</p>
           <h1 id="whatsapp-order-title"><span lang="fi">Tilaa ruokalistalta</span><span lang="en">Order from our menu</span></h1>
-          <section className="whatsapp-opening-hours-highlight" aria-label="Opening hours">
-            <div className="whatsapp-opening-hours-title">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-              <span><span lang="fi">Aukioloajat</span><span lang="en">Opening hours</span></span>
-            </div>
-            <div className="whatsapp-opening-hours-day"><span>Maanantai–perjantai / Monday–Friday</span><strong>19:00–21:00</strong></div>
-            <div className="whatsapp-opening-hours-day"><span>Lauantai–sunnuntai / Saturday–Sunday</span><strong>16:00–21:00</strong></div>
-          </section>
           <p className="whatsapp-order-hero-fi" lang="fi">Valitse annokset ja määrät. Lähetä tilaus meille WhatsAppissa.</p>
           <p className="whatsapp-order-hero-en" lang="en">Choose your dishes and quantities, then send your order to us on WhatsApp.</p>
-        </div>
-        <div className="whatsapp-order-promise-card">
-          <p><span lang="fi">Aitoa intialaista ruokaa</span><span lang="en">Authentic Indian food</span></p>
-          <p><span lang="fi">Suoraan keittiöstämme kotiovellesi</span><span lang="en">Directly from our kitchen to your doorstep</span></p>
-          <address>Pateniementie 59, 90800 Oulu</address>
         </div>
       </div>
 
@@ -253,14 +235,21 @@ export default function WhatsAppOrderFormPage() {
         <div className="whatsapp-menu-groups">
           {MENU_GROUPS.map((group) => (
             <section className="whatsapp-menu-group" key={group.title} aria-labelledby={`whatsapp-group-${group.title}`}>
-              <div className="whatsapp-menu-group-heading">
-                <div className="whatsapp-menu-group-title">
-                  <h2 id={`whatsapp-group-${group.title}`} lang="fi">{group.titleFi}</h2>
+              <button
+                className="whatsapp-menu-group-heading"
+                type="button"
+                aria-expanded={openCategory === group.title}
+                aria-controls={`whatsapp-menu-${group.title}`}
+                onClick={() => setOpenCategory((current) => current === group.title ? null : group.title)}
+              >
+                <span className="whatsapp-menu-group-title">
+                  <span className="whatsapp-menu-group-title-fi" id={`whatsapp-group-${group.title}`} lang="fi">{group.titleFi}</span>
                   <span lang="en">{group.title}</span>
-                </div>
+                </span>
                 <span className="whatsapp-menu-group-count">{group.items.length} tuotetta / items</span>
-              </div>
-              <div className="whatsapp-menu-grid">
+                <span className="whatsapp-category-toggle" aria-hidden="true">{openCategory === group.title ? "−" : "+"}</span>
+              </button>
+              <div id={`whatsapp-menu-${group.title}`} className="whatsapp-menu-grid" hidden={openCategory !== group.title}>
                 {group.items.map((item) => (
                   <article className={`whatsapp-menu-item${quantities[item.id] ? " is-selected" : ""}`} key={item.id}>
                     {item.image ? (
@@ -335,18 +324,13 @@ export default function WhatsAppOrderFormPage() {
                 ))}
               </ul>
             ) : null}
-            <div className="whatsapp-cart-total"><span>Ruokien välisummaa / Food subtotal</span><strong>{formatEuro(subtotal)}</strong></div>
-            <small>Vahvistamme mahdollisen toimitusmaksun. / Any delivery fee will be confirmed by us.</small>
+            <div className="whatsapp-cart-total"><span>Yhteensä / Total</span><strong>{formatEuro(subtotal)}</strong></div>
           </div>
 
           <div className="whatsapp-checkout-fields">
             <h2><span lang="fi">Yhteystietosi</span><span lang="en">Your details</span></h2>
             <label>
-              <span className="whatsapp-label-fi">Koko nimi <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Full name</span>
-              <input name="customer_name" type="text" autoComplete="name" maxLength="100" required />
-            </label>
-            <label>
-              <span className="whatsapp-label-fi">Puhelinnumero <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Phone number</span>
+              <span className="whatsapp-label-fi">WhatsApp-numero <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">WhatsApp number</span>
               <input name="customer_phone" type="tel" autoComplete="tel" maxLength="30" required />
             </label>
 
@@ -364,33 +348,14 @@ export default function WhatsAppOrderFormPage() {
               </label>
             )}
 
-            <div className="whatsapp-order-ahead-note">
-              <p lang="fi">Kaikki annokset valmistetaan tuoreina. Tee tilaus vähintään tuntia ennen toivottua nouto- tai toimitusaikaa.</p>
-              <p lang="en">All orders are freshly prepared. Please order at least one hour before your preferred pickup or delivery time.</p>
-            </div>
-
-            <div className="whatsapp-date-time">
-              <label>
-                <span className="whatsapp-label-fi">Toivottu päivämäärä <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Preferred date</span>
-                <input name="order_date" type="date" min={localDateString()} value={orderDate} onChange={(event) => {
-                  const value = event.target.value;
-                  setOrderDate(value);
-                  if (value) setOrderTime(getDefaultOrderTime(new Date(`${value}T12:00:00`)));
-                }} required />
-              </label>
-              <label>
-                <span className="whatsapp-label-fi">Toivottu aika <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Preferred time</span>
-                <input name="order_time" type="time" min="16:00" max="20:59" value={orderTime} onChange={(event) => setOrderTime(event.target.value)} required />
-              </label>
-            </div>
+            <label className="whatsapp-time-field">
+              <span className="whatsapp-label-fi">Toivottu aika <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Preferred time (today)</span>
+              <input name="order_time" type="time" min={getOpeningHour(new Date()) === 16 ? "16:00" : "19:00"} max="20:59" value={orderTime} onChange={(event) => setOrderTime(event.target.value)} required />
+            </label>
 
             <label>
               <span className="whatsapp-label-fi">Ruoka-allergiat <i className="whatsapp-optional">(vapaaehtoinen)</i></span><span className="whatsapp-label-en">Food allergies <i className="whatsapp-optional">(optional)</i></span>
               <input name="allergies" type="text" maxLength="200" />
-            </label>
-            <label>
-              <span className="whatsapp-label-fi">Tilauksen lisätiedot <i className="whatsapp-optional">(vapaaehtoinen)</i></span><span className="whatsapp-label-en">Order notes <i className="whatsapp-optional">(optional)</i></span>
-              <textarea name="order_notes" rows="2" maxLength="500" />
             </label>
           </div>
 
