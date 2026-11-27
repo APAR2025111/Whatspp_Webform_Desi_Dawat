@@ -206,7 +206,7 @@ export default function WhatsAppOrderFormPage() {
       <div className="whatsapp-order-info">
         <div className="whatsapp-info-tabs" role="group" aria-label="Order information">
           <button id="whatsapp-info-button-delivery" className={`whatsapp-info-tab${openInfoPanel === "delivery" ? " is-active" : ""}`} type="button" aria-expanded={openInfoPanel === "delivery"} aria-controls="whatsapp-info-panel-delivery" onClick={() => setOpenInfoPanel((current) => current === "delivery" ? null : "delivery")}>
-            <span className="whatsapp-info-tab-label"><span lang="fi">Toimitusmaksut</span><span lang="en">Delivery charges</span></span><span className="whatsapp-info-tab-icon" aria-hidden="true">{openInfoPanel === "delivery" ? "⌃" : "⌄"}</span>
+            <span className="whatsapp-info-tab-label"><span lang="fi">Toimitusmaksut</span><span lang="en">Delivery charges</span></span><span className="whatsapp-info-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg></span>
           </button>
         </div>
 
@@ -248,7 +248,7 @@ export default function WhatsAppOrderFormPage() {
                   <span lang="en">{group.title}</span>
                 </span>
                 <span className="whatsapp-menu-group-count">{group.items.length} tuotetta / items</span>
-                <span className="whatsapp-category-toggle" aria-hidden="true">{openCategory === group.title ? "−" : "+"}</span>
+                <span className="whatsapp-category-toggle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></svg></span>
               </button>
               <div id={`whatsapp-menu-${group.title}`} className="whatsapp-menu-grid" hidden={openCategory !== group.title}>
                 {group.items.map((item) => (
