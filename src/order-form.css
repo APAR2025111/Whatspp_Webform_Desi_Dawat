@@ -358,3 +358,48 @@
 .whatsapp-checkout-fields input:not([type=radio]),
 .whatsapp-checkout-fields textarea,
 .whatsapp-submit-button { min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* Compact checkout styling matching the main order form */
+.whatsapp-order-checkout {
+  position: static;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  align-self: stretch;
+  height: auto;
+  gap: 9px;
+  max-height: none;
+  overflow: visible;
+  padding: 12px;
+}
+.whatsapp-order-page .whatsapp-order-checkout .whatsapp-submit-button { position: static; bottom: auto; min-height: 48px; padding: 8px 12px; }
+.whatsapp-cart-summary { padding: 2px 2px 8px; border-bottom: 1px solid #eadfce; }
+.whatsapp-cart-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 10px; min-width: 0; }
+.whatsapp-cart-heading h2,
+.whatsapp-checkout-fields > h2 { margin: 0; color: #70232b; font: 700 1.08rem/1.2 'Playfair Display', Georgia, serif; }
+.whatsapp-cart-heading h2 span,
+.whatsapp-checkout-fields > h2 span { display: block; }
+.whatsapp-cart-heading h2 span[lang="en"],
+.whatsapp-checkout-fields > h2 span[lang="en"] { margin-top: 2px; color: #786b5f; font: 600 .72em/1.25 'Playfair Display', Georgia, serif; }
+.whatsapp-cart-heading > span { padding: 4px 7px; border-radius: 30px; background: #f6ecdd; color: #6e5a49; font-size: .7rem; white-space: nowrap; }
+.whatsapp-cart-list { gap: 6px; max-height: 120px; margin: 8px 0; }
+.whatsapp-cart-empty { margin: 8px 0; color: #84776b; font-size: .82rem; }
+.whatsapp-cart-total { padding-top: 7px; }
+.whatsapp-checkout-fields { display: grid; align-content: start; gap: 8px; }
+.whatsapp-checkout-fields > label,
+.whatsapp-date-time > label { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: 8px; row-gap: 2px; color: #58463a; font-size: .8rem; font-weight: 700; }
+.whatsapp-checkout-fields > label > input,
+.whatsapp-checkout-fields > label > textarea,
+.whatsapp-checkout-fields > label > small { grid-column: 1 / -1; }
+.whatsapp-checkout-fields label .whatsapp-label-en { color: #84776b; font-size: .78rem; font-weight: 500; }
+.whatsapp-checkout-fields input:not([type=radio]),
+.whatsapp-checkout-fields textarea { width: 100%; min-width: 0; padding: 7px 9px; }
+.whatsapp-fulfilment { display: flex; flex-wrap: wrap; gap: 7px 12px; min-width: 0; width: 100%; margin: 0; padding: 7px 9px 8px; box-sizing: border-box; }
+.whatsapp-fulfilment legend { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.whatsapp-date-time { grid-template-columns: minmax(0, 1fr); }
+.whatsapp-checkout-fields,
+.whatsapp-cart-summary,
+.whatsapp-order-checkout > * { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.whatsapp-checkout-fields input:not([type=radio]),
+.whatsapp-checkout-fields textarea,
+.whatsapp-submit-button { max-width: 100%; box-sizing: border-box; }
