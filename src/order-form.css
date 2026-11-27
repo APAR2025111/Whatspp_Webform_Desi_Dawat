@@ -403,3 +403,11 @@
 .whatsapp-checkout-fields input:not([type=radio]),
 .whatsapp-checkout-fields textarea,
 .whatsapp-submit-button { max-width: 100%; box-sizing: border-box; }
+
+/* Keep the Finnish and English phone/time labels on one aligned line */
+.whatsapp-checkout-fields > label.whatsapp-phone-field,
+.whatsapp-checkout-fields > label.whatsapp-time-field { grid-template-columns: max-content max-content; justify-content: space-between; column-gap: 6px; font-size: .78rem; }
+.whatsapp-phone-field > .whatsapp-label-fi,
+.whatsapp-phone-field > .whatsapp-label-en,
+.whatsapp-time-field > .whatsapp-label-fi,
+.whatsapp-time-field > .whatsapp-label-en { white-space: nowrap; }

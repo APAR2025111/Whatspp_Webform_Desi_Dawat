@@ -330,7 +330,7 @@ export default function WhatsAppOrderFormPage() {
 
           <div className="whatsapp-checkout-fields">
             <h2><span lang="fi">Yhteystietosi</span><span lang="en">Your details</span></h2>
-            <label>
+            <label className="whatsapp-phone-field">
               <span className="whatsapp-label-fi">WhatsApp-numero <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">WhatsApp number</span>
               <input name="customer_phone" type="tel" autoComplete="tel" maxLength="30" required />
             </label>
@@ -350,7 +350,7 @@ export default function WhatsAppOrderFormPage() {
             )}
 
             <label className="whatsapp-time-field">
-              <span className="whatsapp-label-fi">Toivottu aika <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Preferred time (today)</span>
+              <span className="whatsapp-label-fi">Toivottu aika <i aria-hidden="true">*</i></span><span className="whatsapp-label-en">Preferred time</span>
               <input name="order_time" type="time" min={getOpeningHour(new Date()) === 16 ? "16:00" : "19:00"} max="20:59" value={orderTime} onChange={(event) => setOrderTime(event.target.value)} required />
             </label>
 
@@ -366,7 +366,7 @@ export default function WhatsAppOrderFormPage() {
               <path d="M16 3.1a12.7 12.7 0 0 0-10.9 19.2L3.4 29l6.9-1.8A12.7 12.7 0 1 0 16 3.1Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
               <path d="M11.2 9.9c-.3-.7-.7-.7-1-.7h-.8c-.3 0-.8.1-1.2.6-.4.4-1.5 1.5-1.5 3.6s1.5 4.1 1.7 4.4c.2.3 2.9 4.6 7.1 6.2 3.5 1.4 4.2 1.1 5 .9.8-.1 2.5-1 2.9-2.1.4-1 .4-1.9.3-2.1-.1-.2-.4-.3-.9-.6-.5-.2-2.5-1.2-2.9-1.3-.4-.2-.7-.2-.9.2-.3.5-1.1 1.3-1.4 1.6-.3.3-.5.3-1 .1-.5-.2-1.9-.7-3.7-2.3-1.4-1.2-2.3-2.7-2.6-3.2-.3-.5 0-.7.2-.9.2-.2.5-.6.7-.8.2-.3.3-.5.5-.8.2-.3.1-.6 0-.8-.1-.2-.9-2.2-1.2-3Z" fill="currentColor" transform="translate(3 0) scale(.78)" />
             </svg>
-            <span className="whatsapp-submit-label"><span lang="fi">Jatka WhatsAppiin</span><span lang="en">Continue to WhatsApp</span></span>
+            <span className="whatsapp-submit-label"><span lang="fi">Jatka WhatsAppiin</span><span lang="en">Place order on WhatsApp</span></span>
           </button>
         </form>
       </div>
